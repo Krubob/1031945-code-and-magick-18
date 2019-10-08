@@ -30,4 +30,32 @@ var createArrOfObj = function (numberOfObj) {
   }
   return arr;
 };
+
 var randomArr = createArrOfObj(4);
+
+var userDialog = document.querySelector('.setup');
+userDialog.classList.remove('hidden');
+
+var similarListElement = userDialog.querySelector('.setup-similar-list');
+
+var similarWizardTemplate = document.querySelector('#similar-wizard-template')
+  .content
+  .querySelector('.setup-similar-item');
+
+var renderWizard = function () {
+  var wizardElement = similarWizardTemplate.cloneNode(true);
+
+  wizardElement.querySelector('.setup-similar-label').textContent = randomArr[i].name;
+  wizardElement.querySelector('.wizard-coat').style.fill = randomArr[i].coatColor;
+  wizardElement.querySelector('.wizard-eyes').style.fill = randomArr[i].eyesColor;
+
+  return wizardElement;
+};
+
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < 4; i++) {
+  fragment.appendChild(renderWizard(randomArr[i]));
+}
+similarListElement.appendChild(fragment);
+
+userDialog.querySelector('.setup-similar').classList.remove('hidden');
