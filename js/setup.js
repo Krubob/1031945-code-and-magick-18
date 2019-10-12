@@ -1,5 +1,7 @@
 'use strict';
 
+var numberOfObj = 4;
+
 var tmpData = {
   WIZARD_NAMES: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
   WIZARD_SURNAMES: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'],
@@ -9,15 +11,12 @@ var tmpData = {
 
 var dom = {
   setupElement: document.querySelector('.setup'),
-  wizardTemplateElement: document.querySelector('#similar-wizard-template')
+  similarWizardTemplate: document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item'),
+  similarListElement: document.querySelector('.setup').querySelector('.setup-similar-list'),
+  setupSimilar: document.querySelector('.setup').querySelector('.setup-similar')
 };
 
-dom.hiddenElement = dom.setupElement.classList.remove('hidden');
-dom.similarListElement = dom.setupElement.querySelector('.setup-similar-list');
-
-dom.similarWizardTemplate = dom.wizardTemplateElement
-  .content
-  .querySelector('.setup-similar-item');
+dom.setupElement.classList.remove('hidden');
 
 var renderWizard = function () {
   dom.wizardElement = dom.similarWizardTemplate.cloneNode(true);
@@ -46,7 +45,7 @@ var createRandomObj = function () {
 };
 
 // создаем функцию для генерации масссива из N объектов со случайными значениями
-var createArrOfObj = function (numberOfObj) {
+var createArrOfObj = function () {
   var arr = []; // создаем пустой массив для записи в него объектов
   for (var i = 0; i < numberOfObj; i++) {
     arr.push(createRandomObj());
@@ -54,13 +53,12 @@ var createArrOfObj = function (numberOfObj) {
   return arr;
 };
 
-var randomArr = createArrOfObj(4);
+var randomArr = createArrOfObj(numberOfObj);
 // console.log(randomArr);
 
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < 4; i++) {
-  fragment.appendChild(renderWizard(randomArr[i]));
+dom.fragment = document.createDocumentFragment();
+for (var i = 0; i < numberOfObj; i++) {
+  dom.fragment.appendChild(renderWizard(randomArr[i]));
 }
-dom.similarListElement.appendChild(fragment);
-
-dom.setupElement.querySelector('.setup-similar').classList.remove('hidden');
+dom.similarListElement.appendChild(dom.fragment);
+dom.setupSimilar.classList.remove('hidden');
