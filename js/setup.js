@@ -16,18 +16,6 @@ var dom = {
   setupSimilar: document.querySelector('.setup').querySelector('.setup-similar')
 };
 
-dom.setupElement.classList.remove('hidden');
-
-var renderWizard = function () {
-  dom.wizardElement = dom.similarWizardTemplate.cloneNode(true);
-
-  dom.wizardElement.querySelector('.setup-similar-label').textContent = randomArr[i].name;
-  dom.wizardElement.querySelector('.wizard-coat').style.fill = randomArr[i].coatColor;
-  dom.wizardElement.querySelector('.wizard-eyes').style.fill = randomArr[i].eyesColor;
-
-  return dom.wizardElement;
-};
-
 // создаем функцию для выбора случайного элемента массива
 var getRandomElement = function (array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -53,12 +41,24 @@ var createArrOfObj = function () {
   return arr;
 };
 
-var randomArr = createArrOfObj(numberOfObj);
+// var randomArr = createArrOfObj(numberOfObj);
 // console.log(randomArr);
+
+var renderWizard = function () {
+  var randomArr = createArrOfObj(numberOfObj);
+  dom.wizardElement = dom.similarWizardTemplate.cloneNode(true);
+  dom.wizardElement.querySelector('.setup-similar-label').textContent = randomArr[i].name;
+  dom.wizardElement.querySelector('.wizard-coat').style.fill = randomArr[i].coatColor;
+  dom.wizardElement.querySelector('.wizard-eyes').style.fill = randomArr[i].eyesColor;
+
+  return dom.wizardElement;
+};
 
 dom.fragment = document.createDocumentFragment();
 for (var i = 0; i < numberOfObj; i++) {
-  dom.fragment.appendChild(renderWizard(randomArr[i]));
+  dom.fragment.appendChild(renderWizard(createArrOfObj(numberOfObj)));
 }
+
+dom.setupElement.classList.remove('hidden');
 dom.similarListElement.appendChild(dom.fragment);
 dom.setupSimilar.classList.remove('hidden');
