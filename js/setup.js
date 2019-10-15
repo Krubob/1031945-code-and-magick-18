@@ -1,5 +1,8 @@
 'use strict';
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
@@ -20,21 +23,23 @@ var getRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
 // функция открытия окна и закрытия нажатием на ESC
 var openPopup = function () {
   setup.classList.remove('hidden');
-
   // если окно настройки открыто, то закрытие окна происходит по нажатию на ESC
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 27) {
-      closePopup();
-    }
-  });
+  document.addEventListener('keydown', onPopupEscPress);
 };
 
 // функция закрытия окна
 var closePopup = function () {
   setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
 };
 
 // при клике на иконку происходит открытие окна настройки
@@ -44,7 +49,7 @@ setupOpen.addEventListener('click', function () {
 
 // при клике на кнопку закрытия происходит закрытие окна настройки
 setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === ENTER_KEYCODE) {
     openPopup();
   }
 });
@@ -56,21 +61,18 @@ setupClose.addEventListener('click', function () {
 
 // если окно открыто и фокус находится на кнопке закрытия, то по нажатию на ENTER происходит закрытие окна
 setupClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
   }
 });
 
 // если окно открыто, то нажатие на кнопку "сохранить" приводит к отправке формы
-setupSubmit.addEventListener('click', function () {
-  form.submit();
-});
+setupSubmit.addEventListener('click', function () {});
 
 // если окно открыто и фокус на кнопке "сохранить", то нажатие на ENTER приводит к отправке формы
 setupSubmit.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === ENTER_KEYCODE) {
     form.submit();
-
   }
 });
 
